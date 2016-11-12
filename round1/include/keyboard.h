@@ -1,3 +1,4 @@
+#include "problem.h"
 #include <cstdint>
 
 struct Point2D {
@@ -20,15 +21,15 @@ struct Fingers {
 class Keyboard {
 public:
     Keyboard(const Configuration mapping);
-    int distance(const char *input, const int len,
+    int distance(const Problem &problem,
                  const Fingers &fingers) const;
     Point2D getPosition(const char key) const;
     int     getKeyIndex(const char key) const;
-    int     getFirstKeyIndex(const char *input, const int len) const;
-    int     getSecondKeyIndex(const char * input, const int len,
-                             const int firstKey) const;
+    int     getFirstKeyIndex(const Problem & problem) const;
+    int getSecondKeyIndex(const Problem &problem,
+                          const int firstKey) const;
     Point2D getKeyByIndex(const int index) const;
-    Fingers initPosition(const char * input, const int len) const;
+    Fingers initPosition(const Problem & problem) const;
     bool isLeft(const int key1, const int key2) const;
     int dist(const int key1, const int key2) const;
     const Configuration &getConfiguration() const {
@@ -44,8 +45,9 @@ class Solution {
     Solution(const Configuration configuration, const char *input,
              const int len)
         : keyboard(configuration),
-          fingers(keyboard.initPosition(input, len)), input(input),
-          len(len), dist(keyboard.distance(input, len, fingers)) {}
+          fingers(keyboard.initPosition(Problem(input, len))),
+          input(input), len(len),
+          dist(keyboard.distance(Problem(input, len), fingers)) {}
 
     Solution(const Solution & sol, uint32_t mutation);
     Solution &operator=(const Solution &sol);

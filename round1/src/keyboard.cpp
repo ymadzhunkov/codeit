@@ -56,9 +56,9 @@ Configuration::Configuration(const Configuration & conf, uint32_t mutation) {
     mapping[j] = a;
 }
 
-int Keyboard::getFirstKeyIndex(const char *input,
-                               const int len) const {
-    return len > 0 ? getKeyIndex(input[0]) : -1;
+int Keyboard::getFirstKeyIndex(const Problem & problem) const {
+    return problem.getLen() > 0 ? getKeyIndex(problem.getInput()[0])
+                                : -1;
 }
 
 class InitializeCachedDistance {
@@ -103,10 +103,10 @@ class InitializeCachedDistance {
     int sameX[26];
 } cached;
 
-int Keyboard::getSecondKeyIndex(const char *input,
-                                const int len,
+int Keyboard::getSecondKeyIndex(const Problem &problem,
                                 const int firstKey) const {
-    for (int i = 1; i < len; i++)
+    const char *input = problem.getInput();
+    for (int i = 1; i < problem.getLen(); i++)
         if (input[i] != input[0]) {
             const int candidate = getKeyIndex(input[i]);
             if ((cached.sameX[firstKey] & (1 << candidate)) == 0)
@@ -115,12 +115,9 @@ int Keyboard::getSecondKeyIndex(const char *input,
     return -1;
 }
 
-
-
-Fingers Keyboard::initPosition(const char *input,
-                               const int len) const {
-    const int firstKey = getFirstKeyIndex(input, len);
-    const int secondKey = getSecondKeyIndex(input, len, firstKey);
+Fingers Keyboard::initPosition(const Problem & problem) const {
+    const int firstKey = getFirstKeyIndex(problem);
+    const int secondKey = getSecondKeyIndex(problem, firstKey);
     Fingers res;
     if (secondKey == -1) {
         const bool firstKeyIsMostRight =
@@ -143,12 +140,12 @@ int Keyboard::dist(const int key1, const int key2) const {
     return cached.dist[key1][key2];
 }
 
-int Keyboard::distance(const char *input, const int len,
+int Keyboard::distance(const Problem & problem,
                        const Fingers &initFingers) const {
     Fingers fingers = initFingers;
     int distance = 0;
-    for (int i = 0; i < len; i++) {
-        const int dest = getKeyIndex(input[i]);
+    for (int i = 0; i < problem.getLen(); i++) {
+        const int dest = getKeyIndex(problem.getInput()[i]);
         const int distanceLeft = dist(fingers.left, dest);
         const int distanceRight = dist(fingers.right, dest);
         const bool canUseLeftFinger = isLeft(dest, fingers.right);
