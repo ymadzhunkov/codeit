@@ -42,18 +42,16 @@ private:
 
 class Solution {
   public:
-    Solution(const Configuration configuration, const char *input,
-             const int len)
+    Solution(const Configuration configuration,
+             const Problem &problem)
         : keyboard(configuration),
-          fingers(keyboard.initPosition(Problem(input, len))),
-          input(input), len(len),
-          dist(keyboard.distance(Problem(input, len), fingers)) {}
+          fingers(keyboard.initPosition(problem)),
+          dist(keyboard.distance(problem, fingers)) {}
 
-    Solution(const Solution & sol, uint32_t mutation);
-    Solution &operator=(const Solution &sol);
+    Solution(const Solution &sol, uint32_t mutation,
+             const Problem &problem);
+
     Keyboard keyboard;
     Fingers fingers;
-    const char *input;
-    const int len;
     int dist;
 };

@@ -160,15 +160,9 @@ int Keyboard::distance(const Problem & problem,
     return distance;
 }
 
-Solution::Solution(const Solution &sol, uint32_t mutation)
+Solution::Solution(const Solution &sol, uint32_t mutation,
+                   const Problem &problem)
     : Solution(
           Configuration(sol.keyboard.getConfiguration(), mutation),
-          sol.input, sol.len) {}
+          problem) {}
 
-Solution &Solution::operator=(const Solution &sol) { 
-    keyboard = sol.keyboard;
-    fingers = sol.fingers;
-    dist = sol.dist;
-
-    return *this; 
-}

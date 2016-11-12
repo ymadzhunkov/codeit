@@ -45,13 +45,13 @@ Solution * best = nullptr;
 std::mutex solution_mutex;
 size_t totalIter = 0;
 
-void findBetterSolution(uint32_t seed) {
+void findBetterSolution(uint32_t seed, const Problem & p) {
     auto rnd = std::minstd_rand(seed);
     
     Solution * myBest = nullptr;
     {
         std::lock_guard<std::mutex> guard(solution_mutex);
-        myBest = new Solution(*best, 1234);
+        myBest = new Solution(*best, 1234, p);
     }
 
     size_t iter = 0;
@@ -64,7 +64,7 @@ void findBetterSolution(uint32_t seed) {
         }
               
         for (int i = 0; i < 256; i++) {
-            Solution sol(*myBest, rnd());
+            Solution sol(*myBest, rnd(), p);
             if (myBest->dist > sol.dist) 
                 *myBest = sol;
         }
@@ -101,16 +101,16 @@ void outputStats() {
 int main(int argc, char *argv[]) {
 
     const std::string text = readInput();
-
+    Problem p(text.c_str(), strlen(text.c_str()));
     best = new Solution(Configuration("iutdjncorepbmyagshkwlxzqvf"),
-                  text.c_str(), strlen(text.c_str()));
+                  p);
 
     int num_threads = std::thread::hardware_concurrency();
     if (num_threads > 32) num_threads = 32;
     std::thread t[32];
 
     for (int i = 0; i < num_threads; ++i)
-        t[i] = std::thread(findBetterSolution, 1234 + i * i * i);
+        t[i] = std::thread(findBetterSolution, 1234 + i * i * i, p);
 
     for (int i = 0; i < num_threads; ++i)
         t[i].join();

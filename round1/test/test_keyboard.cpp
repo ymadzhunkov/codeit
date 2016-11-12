@@ -259,10 +259,10 @@ TEST_CASE("Test computing distance handles finger crossing") {
 TEST_CASE("Test if mutation of solution leads to differnt solution") {
     const char * input = "helloworldhelloworld";
 
-    Solution sol(Configuration("iutdjncorepbmyagshkwlxzqvf"), input,
-                 20);
+    Problem p(input, 20);
+    Solution sol(Configuration("iutdjncorepbmyagshkwlxzqvf"), p);
 
-    Solution sol2(sol, 24 * 32 + 17);
+    Solution sol2(sol, 24 * 32 + 17, p);
     REQUIRE(sol2.dist != sol.dist);
 
     sol2 = sol;
