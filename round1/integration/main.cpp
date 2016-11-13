@@ -1,4 +1,5 @@
 #include "keyboard.h"
+#include "solution.h"
 
 #include <stdlib.h>
 #include <ctime>
@@ -20,26 +21,6 @@ bool inTime(std::clock_t c_start, const double timelimit) {
     return duration < timelimit * 1000;
 }
 
-std::string readInput() {
-    std::ifstream fin("keyboard.in");
-    std::string s;
-    std::getline(fin, s);
-    std::getline(fin, s);
-    return s;
-}
-
-
-void write(const Solution & solution) {
-    std::ofstream fout("keyboard.out");
-    fout << solution.fingers.left + 1 << " "
-         << solution.fingers.right + 1 << std::endl;
-    auto &conf = solution.keyboard.getConfiguration().mapping;
-    for (int i = 0; i < sizeof(conf); i++)
-        fout << conf[i];
-    fout << std::endl;
-    
-
-}
 
 Solution * best = nullptr;
 std::mutex solution_mutex;
@@ -51,7 +32,7 @@ void findBetterSolution(uint32_t seed, const Problem & p) {
     Solution * myBest = nullptr;
     {
         std::lock_guard<std::mutex> guard(solution_mutex);
-        myBest = new Solution(*best, 1234, p);
+        myBest = new Solution(rnd, *best, p);
     }
 
     size_t iter = 0;
@@ -64,7 +45,7 @@ void findBetterSolution(uint32_t seed, const Problem & p) {
         }
               
         for (int i = 0; i < 256; i++) {
-            Solution sol(*myBest, rnd(), p);
+            Solution sol(rnd, *myBest, p);
             if (myBest->dist > sol.dist) 
                 *myBest = sol;
         }
@@ -102,8 +83,8 @@ int main(int argc, char *argv[]) {
 
     const std::string text = readInput();
     Problem p(text.c_str(), strlen(text.c_str()));
-    best = new Solution(Configuration("iutdjncorepbmyagshkwlxzqvf"),
-                  p);
+    auto rnd = std::minstd_rand(2222);
+    best = new Solution(rnd, p);
 
     int num_threads = std::thread::hardware_concurrency();
     if (num_threads > 32) num_threads = 32;

@@ -1,5 +1,6 @@
 #include "doctest.h"
 #include "keyboard.h"
+#include "solution.h"
 TEST_CASE("Test keyboard position with default configuration") {
     Configuration defaultConfiguration("qwertyuiopasdfghjklzxcvbnm");
     Keyboard keyboard(defaultConfiguration);
@@ -262,7 +263,8 @@ TEST_CASE("Test if mutation of solution leads to differnt solution") {
     Problem p(input, 20);
     Solution sol(Configuration("iutdjncorepbmyagshkwlxzqvf"), p);
 
-    Solution sol2(sol, 24 * 32 + 17, p);
+    auto rnd = std::minstd_rand(1234);
+    Solution sol2(rnd, sol, p);
     REQUIRE(sol2.dist != sol.dist);
 
     sol2 = sol;

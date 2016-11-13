@@ -40,18 +40,3 @@ private:
     Configuration configuration; 
 };
 
-class Solution {
-  public:
-    Solution(const Configuration configuration,
-             const Problem &problem)
-        : keyboard(configuration),
-          fingers(keyboard.initPosition(problem)),
-          dist(keyboard.distance(problem, fingers)) {}
-
-    Solution(const Solution &sol, uint32_t mutation,
-             const Problem &problem);
-
-    Keyboard keyboard;
-    Fingers fingers;
-    int dist;
-};

@@ -1,3 +1,5 @@
+#pragma once
+#include <string>
 class Problem {
   public:
     Problem(const char *input, const int len)
@@ -9,3 +11,5 @@ class Problem {
     const char *input;
     int len;
 };
+
+std::string readInput();

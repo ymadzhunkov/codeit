@@ -8,7 +8,12 @@ project(${PROJECT_NAME})
 include_directories("include")
 
 add_definitions(-std=c++11)
-set(SOURCES "../src/keyboard.cpp")
+set(SOURCES 
+    "../src/keyboard.cpp"
+    "../src/solution.cpp"
+    "../src/problem.cpp"
+#            "../src/simulated_annealing.cpp"
+)
 
 add_subdirectory(test)
 add_subdirectory(integration)
