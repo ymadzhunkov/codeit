@@ -1,3 +1,4 @@
+#pragma once
 #include "problem.h"
 #include <cstdint>
 

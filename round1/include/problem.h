@@ -6,6 +6,7 @@ class Problem {
         : input(input), len(len) {}
     const char *getInput() const { return input; }
     int getLen() const { return len; }
+    int getSize() const { return len; }
 
   private:
     const char *input;

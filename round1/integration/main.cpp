@@ -1,6 +1,6 @@
 #include "keyboard.h"
 #include "solution.h"
-
+#include "simulated_annealing.h"
 #include <stdlib.h>
 #include <ctime>
 #include <chrono>
@@ -79,8 +79,7 @@ void outputStats() {
               << "Distance = " << best->dist << "\n";
 }
 
-int main(int argc, char *argv[]) {
-
+void solution1() {
     const std::string text = readInput();
     Problem p(text.c_str(), strlen(text.c_str()));
     auto rnd = std::minstd_rand(2222);
@@ -99,5 +98,14 @@ int main(int argc, char *argv[]) {
     outputStats();
     write(*best);
     delete best;
+}
+
+int main(int argc, char *argv[]) {
+    const std::string text = readInput();
+    Problem p(text.c_str(), strlen(text.c_str()));
+    SimulatedAnnealing sa(p, 2.8);
+    Solution best = sa.optimize(2231);
+    write(best);
+    reportStats(stdout, sa.getStatistics());
     return EXIT_SUCCESS;
 }
