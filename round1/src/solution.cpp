@@ -7,11 +7,26 @@ Solution::Solution(std::minstd_rand &generator, const Solution &sol,
                    const Problem &problem)
     : Solution(
           Configuration(sol.keyboard.getConfiguration(), generator()),
-          problem) {}
+          problem) {
+    
+}
+
+Configuration randomConfig(std::minstd_rand &generator) {
+    Configuration res("iutdjncorepbmyagshkwlxzqvf");
+    for (int i = 0; i < sizeof(res.mapping); i++) {
+        uint32_t r = generator();
+        int j = r % sizeof(res.mapping);
+        char a = res.mapping[i];
+        res.mapping[i] = res.mapping[j];
+        res.mapping[j] = a;
+    }
+    return res;
+}
+
 
 Solution::Solution(std::minstd_rand &generator,
                    const Problem &problem)
-    : Solution(Configuration("iutdjncorepbmyagshkwlxzqvf"), problem) {
+    : Solution(randomConfig(generator), problem) {
 }
 
 void write(const Solution &solution) {
