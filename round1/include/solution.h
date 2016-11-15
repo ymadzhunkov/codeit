@@ -15,10 +15,10 @@ class Solution {
     Solution(std::minstd_rand &generator, const Solution &sol,
              const Problem &problem);
 
+    void write(FILE * file);
+
     Keyboard keyboard;
     Fingers fingers;
     int dist;
     int getFitness() const { return dist; }
 };
-
-void write(const Solution & solution);

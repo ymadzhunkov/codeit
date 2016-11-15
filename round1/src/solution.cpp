@@ -1,7 +1,6 @@
 #include "keyboard.h"
 #include "solution.h"
-#include <fstream>
-#include <iostream>
+#include <cstring>
 
 Solution::Solution(std::minstd_rand &generator, const Solution &sol,
                    const Problem &problem)
@@ -29,11 +28,10 @@ Solution::Solution(std::minstd_rand &generator,
     : Solution(randomConfig(generator), problem) {
 }
 
-void write(const Solution &solution) {
-    std::ofstream fout("keyboard.out");
-    fout << solution.fingers.left + 1 << " "
-         << solution.fingers.right + 1 << std::endl;
-    auto &conf = solution.keyboard.getConfiguration().mapping;
-    for (int i = 0; i < sizeof(conf); i++) fout << conf[i];
-    fout << std::endl;
+void Solution::write(FILE * file) {
+    fprintf(file, "%d %d\n", fingers.left+1, fingers.right+1);
+    char d[32];
+    memcpy(d, keyboard.getConfiguration().mapping, 26);
+    d[26] = '\0';
+    fprintf(file, "%s\n", d);
 }
