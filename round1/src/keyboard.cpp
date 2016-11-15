@@ -29,9 +29,9 @@ Point2D Keyboard::getKeyByIndex(const int index) const {
 }
 
 int Keyboard::getKeyIndex(const char key) const {
-    for (int i = 0; i < sizeof(configuration.mapping); i++)
+    for (int i = 0; i < sizeof(configuration.mapping) - 1; i++)
         if (configuration.mapping[i] == key) return i;
-    return -1;
+    return sizeof(configuration.mapping) - 1;
 }
 
 Point2D Keyboard::getPosition(char key) const {
