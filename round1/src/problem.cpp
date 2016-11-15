@@ -1,12 +1,8 @@
 #include "problem.h"
-#include <fstream>
-#include <iostream>
 
-std::string readInput() {
-    std::ifstream fin("keyboard.in");
-    std::string s;
-    std::getline(fin, s);
-    std::getline(fin, s);
-    return s;
+Problem::Problem(FILE *file) : input(nullptr), size(0) {
+    fscanf(file, "%d", &size);
+    input.reset(new char[size + 1]);
+    fscanf(file, "%s", input.get());
 }
 

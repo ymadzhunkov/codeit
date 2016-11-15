@@ -57,7 +57,7 @@ Configuration::Configuration(const Configuration & conf, uint32_t mutation) {
 }
 
 int Keyboard::getFirstKeyIndex(const Problem & problem) const {
-    return problem.getLen() > 0 ? getKeyIndex(problem.getInput()[0])
+    return problem.getSize() > 0 ? getKeyIndex(problem.getInput()[0])
                                 : -1;
 }
 
@@ -106,7 +106,7 @@ class InitializeCachedDistance {
 int Keyboard::getSecondKeyIndex(const Problem &problem,
                                 const int firstKey) const {
     const char *input = problem.getInput();
-    for (int i = 1; i < problem.getLen(); i++)
+    for (int i = 1; i < problem.getSize(); i++)
         if (input[i] != input[0]) {
             const int candidate = getKeyIndex(input[i]);
             if ((cached.sameX[firstKey] & (1 << candidate)) == 0)
@@ -144,7 +144,7 @@ int Keyboard::distance(const Problem & problem,
                        const Fingers &initFingers) const {
     Fingers fingers = initFingers;
     int distance = 0;
-    for (int i = 0; i < problem.getLen(); i++) {
+    for (int i = 0; i < problem.getSize(); i++) {
         const int dest = getKeyIndex(problem.getInput()[i]);
         const int distanceLeft = dist(fingers.left, dest);
         const int distanceRight = dist(fingers.right, dest);

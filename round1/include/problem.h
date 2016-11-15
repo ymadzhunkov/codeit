@@ -1,16 +1,18 @@
 #pragma once
-#include <string>
+#include <memory>
+
 class Problem {
   public:
-    Problem(const char *input, const int len)
-        : input(input), len(len) {}
-    const char *getInput() const { return input; }
-    int getLen() const { return len; }
-    int getSize() const { return len; }
+    Problem(const char *inputStr, const int length)
+        : input(new char[length]), size(length) {
+        for (int i = 0; i < length; i++) input[i] = inputStr[i];
+    }
+
+    Problem(FILE * file);
+    const char *getInput() const { return input.get(); }
+    int getSize() const { return size; }
 
   private:
-    const char *input;
-    int len;
+    std::unique_ptr<char[]> input;
+    int size;
 };
-
-std::string readInput();

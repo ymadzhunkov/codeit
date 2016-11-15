@@ -2,6 +2,7 @@
 set(UNIT_SOURCES 
    "main.cpp"
    "test_keyboard.cpp"
+   "test_problem.cpp"
 )
 
 add_coverage_target(
