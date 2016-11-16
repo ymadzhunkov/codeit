@@ -2,7 +2,7 @@
 set(TEST_SOURCES 
    "main.cpp"
 )
-#add_definitions("-O2")
+add_definitions("-O2")
 #add_definitions("-pthread")
 SET(CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} "-std=c++11 -pthread")
 add_executable(keyboard ${TEST_SOURCES} ${SOURCES})
