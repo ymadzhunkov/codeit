@@ -1,6 +1,6 @@
 #include "doctest.h"
 #include "keyboard.h"
-#include "solution.h"
+#include "answer.h"
 TEST_CASE("Test keyboard position with default configuration") {
     Configuration defaultConfiguration("qwertyuiopasdfghjklzxcvbnm");
     Keyboard keyboard(defaultConfiguration);

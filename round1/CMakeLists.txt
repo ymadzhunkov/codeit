@@ -10,7 +10,7 @@ include_directories("include")
 add_definitions(-std=c++11)
 set(SOURCES 
     "../src/keyboard.cpp"
-    "../src/solution.cpp"
+    "../src/answer.cpp"
     "../src/problem.cpp"
     "../src/simulated_annealing.cpp"
 )

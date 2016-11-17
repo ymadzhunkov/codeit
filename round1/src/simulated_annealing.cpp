@@ -1,6 +1,6 @@
 #include "simulated_annealing.h"
 #include "problem.h"
-#include "solution.h"
+#include "answer.h"
 
 SimulatedAnnealing::SimulatedAnnealing(const Problem &problem,
                                        const float timelimit)

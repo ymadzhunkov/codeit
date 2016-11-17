@@ -1,5 +1,5 @@
 #include "keyboard.h"
-#include "solution.h"
+#include "answer.h"
 #include "simulated_annealing.h"
 
 int main(int argc, char *argv[]) {

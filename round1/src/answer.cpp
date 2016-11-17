@@ -1,5 +1,5 @@
 #include "keyboard.h"
-#include "solution.h"
+#include "answer.h"
 #include <cstring>
 
 Answer::Answer(std::minstd_rand &generator, const Answer &sol,

@@ -1,6 +1,6 @@
 #include "doctest.h"
 #include "problem.h"
-#include "solution.h"
+#include "answer.h"
 #include <cstring>
 
 TEST_CASE("Test if solution writes properly to file") {
