@@ -6,7 +6,7 @@
 TEST_CASE("Test if solution writes properly to file") {
     Configuration conf("iutdjncorepbmyagshkwlxzqvf");
     Problem problem("iroirutdmyxlubr", 15);
-    Solution s(conf, problem);
+    Answer s(conf, problem);
 
     char buf[256];
     FILE *file = fmemopen(buf, sizeof(buf), "w");

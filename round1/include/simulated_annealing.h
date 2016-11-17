@@ -2,7 +2,7 @@
 #include <chrono>
 #include <random>
 
-class Solution;
+class Answer;
 class Problem;
 
 
@@ -14,7 +14,7 @@ public:
 
     float CPUTimeInSeconds;
     float RealTimeInSeconds;
-    float bestSolution;
+    float bestAnswer;
 };
 void reportStats(FILE *file, const Statistics &stats);
 
@@ -23,7 +23,7 @@ class SimulatedAnnealing {
     SimulatedAnnealing(const Problem &problem, const float timelimit);
     ~SimulatedAnnealing();
 
-    Solution && optimize(const uint32_t seed) const;
+    Answer && optimize(const uint32_t seed) const;
 
     bool shouldMove(const float fitness, const float newFitness,
                     const float temp,

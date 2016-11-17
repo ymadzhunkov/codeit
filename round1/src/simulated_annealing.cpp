@@ -10,13 +10,13 @@ SimulatedAnnealing::SimulatedAnnealing(const Problem &problem,
 
 SimulatedAnnealing::~SimulatedAnnealing(){}
 
-Solution &&SimulatedAnnealing::optimize(const uint32_t seed) const {
+Answer &&SimulatedAnnealing::optimize(const uint32_t seed) const {
     auto rnd = std::minstd_rand(seed);
-    Solution state(rnd, problem);
-    Solution best = state;
+    Answer state(rnd, problem);
+    Answer best = state;
     size_t iter = 0;
     for (; terminationCreiteria(iter); iter++) {
-        Solution candidate(rnd, state, problem);
+        Answer candidate(rnd, state, problem);
 
         if (best.getFitness() > candidate.getFitness())
             best = candidate;
@@ -34,7 +34,7 @@ Solution &&SimulatedAnnealing::optimize(const uint32_t seed) const {
 
     stats.CPUTimeInSeconds = getCPUTime();
     stats.RealTimeInSeconds = getRealTime();
-    stats.bestSolution = best.getFitness();
+    stats.bestAnswer = best.getFitness();
     return std::move(best);
 }
 
@@ -84,7 +84,7 @@ void reportStats(FILE * file, const Statistics & stats) {
     fprintf(file, "computation speed    = %.2f iter/s\n",
             stats.performedIterations / stats.RealTimeInSeconds);
     fprintf(file, "best fitness reached = %.0f\n",
-            stats.bestSolution);
+            stats.bestAnswer);
     fprintf(file, "CPU time             = %.2f sec\n",
             stats.CPUTimeInSeconds);
     fprintf(file, "Real time            = %.2f sec\n",

@@ -261,10 +261,10 @@ TEST_CASE("Test if mutation of solution leads to differnt solution") {
     const char * input = "helloworldhelloworld";
 
     Problem p(input, 20);
-    Solution sol(Configuration("iutdjncorepbmyagshkwlxzqvf"), p);
+    Answer sol(Configuration("iutdjncorepbmyagshkwlxzqvf"), p);
 
     auto rnd = std::minstd_rand(1234);
-    Solution sol2(rnd, sol, p);
+    Answer sol2(rnd, sol, p);
     REQUIRE(sol2.dist != sol.dist);
 
     sol2 = sol;

@@ -2,17 +2,17 @@
 #include <random>
 #include "keyboard.h"
 
-class Solution {
+class Answer {
   public:
-    Solution(std::minstd_rand &generator, const Problem &problem);
+    Answer(std::minstd_rand &generator, const Problem &problem);
 
-    Solution(const Configuration configuration,
+    Answer(const Configuration configuration,
              const Problem &problem)
         : keyboard(configuration),
           fingers(keyboard.initPosition(problem)),
           dist(keyboard.distance(problem, fingers)) {}
 
-    Solution(std::minstd_rand &generator, const Solution &sol,
+    Answer(std::minstd_rand &generator, const Answer &sol,
              const Problem &problem);
 
     void write(FILE * file);

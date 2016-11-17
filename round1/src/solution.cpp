@@ -2,9 +2,9 @@
 #include "solution.h"
 #include <cstring>
 
-Solution::Solution(std::minstd_rand &generator, const Solution &sol,
+Answer::Answer(std::minstd_rand &generator, const Answer &sol,
                    const Problem &problem)
-    : Solution(
+    : Answer(
           Configuration(sol.keyboard.getConfiguration(), generator()),
           problem) {
     
@@ -23,12 +23,12 @@ Configuration randomConfig(std::minstd_rand &generator) {
 }
 
 
-Solution::Solution(std::minstd_rand &generator,
+Answer::Answer(std::minstd_rand &generator,
                    const Problem &problem)
-    : Solution(randomConfig(generator), problem) {
+    : Answer(randomConfig(generator), problem) {
 }
 
-void Solution::write(FILE * file) {
+void Answer::write(FILE * file) {
     fprintf(file, "%d %d\n", fingers.left+1, fingers.right+1);
     char d[32];
     memcpy(d, keyboard.getConfiguration().mapping, 26);
