@@ -18,6 +18,10 @@ if(CMAKE_CXX_COMPILER_ID MATCHES "GNU")
       set                  (UNIT_TESTS ${ARG_PROJECT_NAME}_tests)
       add_executable       (${UNIT_TESTS} ${ARG_UNIT_SOURCES} ${ARG_SOURCES})
       target_link_libraries(${UNIT_TESTS} gcov ${ARG_LINK_LIBS})
+
+      add_custom_command(TARGET ${UNIT_TESTS} POST_BUILD
+                        COMMAND $<TARGET_FILE:${UNIT_TESTS}>)
+
  
       get_target_property  (EXISTING_LINK_FLAGS ${UNIT_TESTS} LINK_FLAGS)
       set_target_properties(${UNIT_TESTS} PROPERTIES LINK_FLAGS "${LINK_FLAGS} ${GCC_COV_FLAGS}")
