@@ -1,16 +1,15 @@
 #pragma once
 #include <memory>
+#include <random>
 
 class Problem {
   public:
-    Problem(const char *inputStr, const int length)
-        : input(new char[length]), size(length) {
-        for (int i = 0; i < length; i++) input[i] = inputStr[i];
-    }
-
     Problem(FILE * file);
-    const char *getInput() const { return input.get(); }
-    int getSize() const { return size; }
+    Problem(const char *inputStr, const int length);
+    Problem(std::minstd_rand &generator, const int length);
+
+    const char *getInput() const;
+    int         getSize () const;
 
   private:
     std::unique_ptr<char[]> input;
