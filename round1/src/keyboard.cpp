@@ -138,9 +138,8 @@ Fingers Keyboard::initPosition(const Problem & problem) const {
 
 
 
-int Keyboard::distance(const Problem & problem,
-                       const Fingers &initFingers) const {
-    Fingers fingers = initFingers;
+int Keyboard::distance(const Problem & problem) const {
+    Fingers fingers = initPosition(problem);
     int distance = 0;
     for (int i = 0; i < problem.getSize(); i++) {
         const int dest = getKeyIndex(problem.getInput()[i]);

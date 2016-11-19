@@ -238,18 +238,18 @@ TEST_CASE("Test computing distance with example configuration") {
     Fingers fingers = keyboard.initPosition(Problem(input, 2));
 
     SUBCASE("Use first 2 symbols") {
-        REQUIRE(0 == keyboard.distance(Problem(input, 2), fingers));
+        REQUIRE(0 == keyboard.distance(Problem(input, 2)));
     }
 
     SUBCASE("Use first 3 symbols") {
         const int d = dist(keyboard.getKeyIndex('r'),
                                     keyboard.getKeyIndex('o'));
         REQUIRE(38 == d);
-        REQUIRE(38 == keyboard.distance(Problem(input, 3), fingers));
+        REQUIRE(38 == keyboard.distance(Problem(input, 3)));
     }
 
     SUBCASE("Use first 4 symbols") {
-        REQUIRE(38 == keyboard.distance(Problem(input, 4), fingers));
+        REQUIRE(38 == keyboard.distance(Problem(input, 4)));
     }
 
     SUBCASE("Use first 5 symbols") {
@@ -257,14 +257,14 @@ TEST_CASE("Test computing distance with example configuration") {
                                     keyboard.getKeyIndex('r'));
         
         REQUIRE(38 == d);
-        REQUIRE(76 == keyboard.distance(Problem(input, 5), fingers));
+        REQUIRE(76 == keyboard.distance(Problem(input, 5)));
     }
     SUBCASE("Use first 6 symbols") {
         const int d = dist(keyboard.getKeyIndex('i'),
                                     keyboard.getKeyIndex('u'));
         
         REQUIRE(38 == d);
-        REQUIRE(3 * 38 == keyboard.distance(Problem(input, 6), fingers));
+        REQUIRE(3 * 38 == keyboard.distance(Problem(input, 6)));
     }
 
     SUBCASE("Use first 7 symbols") {
@@ -272,18 +272,18 @@ TEST_CASE("Test computing distance with example configuration") {
                                     keyboard.getKeyIndex('t'));
         
         REQUIRE(38 == d);
-        REQUIRE(4 * 38 == keyboard.distance(Problem(input, 7), fingers));
+        REQUIRE(4 * 38 == keyboard.distance(Problem(input, 7)));
     }
 
     SUBCASE("Use first 9 symbols") {
         const int d = dist(keyboard.getKeyIndex('d'),
                                     keyboard.getKeyIndex('m'));
         REQUIRE(48 == d);
-        REQUIRE(5 * 38 + 48== keyboard.distance(Problem(input, 9), fingers));
+        REQUIRE(5 * 38 + 48== keyboard.distance(Problem(input, 9)));
     }
 
     SUBCASE("Use first 15 symbols") {
-        REQUIRE(482 == keyboard.distance(Problem(input, 15), fingers));
+        REQUIRE(482 == keyboard.distance(Problem(input, 15)));
     }
 }
 
@@ -295,7 +295,7 @@ TEST_CASE("Test computing distance handles finger crossing") {
         Fingers fingers = keyboard.initPosition(p);
         const int d = dist(keyboard.getKeyIndex('v'),
                                     keyboard.getKeyIndex('r'));
-        REQUIRE(d == keyboard.distance(p, fingers));
+        REQUIRE(d == keyboard.distance(p));
     }
 
     SUBCASE("Use bty") {
@@ -303,7 +303,7 @@ TEST_CASE("Test computing distance handles finger crossing") {
         Fingers fingers = keyboard.initPosition(p);
         const int d = dist(keyboard.getKeyIndex('b'),
                                     keyboard.getKeyIndex('y'));
-        REQUIRE(d == keyboard.distance(p, fingers));
+        REQUIRE(d == keyboard.distance(p));
     }
 
 }

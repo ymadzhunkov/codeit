@@ -28,7 +28,8 @@ Answer::Answer(std::minstd_rand &generator,
     : Answer(randomConfig(generator), problem) {
 }
 
-void Answer::write(FILE * file) {
+void Answer::write(FILE *file, const Problem &problem) {
+    Fingers fingers = keyboard.initPosition(problem);
     fprintf(file, "%d %d\n", fingers.left+1, fingers.right+1);
     char d[32];
     memcpy(d, keyboard.getConfiguration().mapping, 26);

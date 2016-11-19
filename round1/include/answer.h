@@ -9,16 +9,14 @@ class Answer {
     Answer(const Configuration configuration,
              const Problem &problem)
         : keyboard(configuration),
-          fingers(keyboard.initPosition(problem)),
-          dist(keyboard.distance(problem, fingers)) {}
+          dist(keyboard.distance(problem)) {}
 
     Answer(std::minstd_rand &generator, const Answer &sol,
              const Problem &problem);
 
-    void write(FILE * file);
+    void write(FILE * file, const Problem &problem);
 
     Keyboard keyboard;
-    Fingers fingers;
     int dist;
     int getFitness() const { return dist; }
 };

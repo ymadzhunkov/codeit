@@ -10,7 +10,7 @@ TEST_CASE("Test if solution writes properly to file") {
 
     char buf[256];
     FILE *file = fmemopen(buf, sizeof(buf), "w");
-    s.write(file);
+    s.write(file, problem);
     fclose(file);
     REQUIRE(strcmp(buf, "1 9\niutdjncorepbmyagshkwlxzqvf\n") == 0);
 }

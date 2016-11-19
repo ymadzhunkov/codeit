@@ -25,8 +25,7 @@ int dist(const int key1, const int key2);
 class Keyboard {
 public:
     Keyboard(const Configuration mapping);
-    int distance(const Problem &problem,
-                 const Fingers &fingers) const;
+    int     distance(const Problem &problem) const;
     int     getKeyIndex(const char key) const;
     int     getFirstKeyIndex(const Problem & problem) const;
     int     getSecondKeyIndex(const Problem &problem,
