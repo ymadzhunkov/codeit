@@ -242,7 +242,7 @@ TEST_CASE("Test computing distance with example configuration") {
     }
 
     SUBCASE("Use first 3 symbols") {
-        const int d = keyboard.dist(keyboard.getKeyIndex('r'),
+        const int d = dist(keyboard.getKeyIndex('r'),
                                     keyboard.getKeyIndex('o'));
         REQUIRE(38 == d);
         REQUIRE(38 == keyboard.distance(Problem(input, 3), fingers));
@@ -253,14 +253,14 @@ TEST_CASE("Test computing distance with example configuration") {
     }
 
     SUBCASE("Use first 5 symbols") {
-        const int d = keyboard.dist(keyboard.getKeyIndex('o'),
+        const int d = dist(keyboard.getKeyIndex('o'),
                                     keyboard.getKeyIndex('r'));
         
         REQUIRE(38 == d);
         REQUIRE(76 == keyboard.distance(Problem(input, 5), fingers));
     }
     SUBCASE("Use first 6 symbols") {
-        const int d = keyboard.dist(keyboard.getKeyIndex('i'),
+        const int d = dist(keyboard.getKeyIndex('i'),
                                     keyboard.getKeyIndex('u'));
         
         REQUIRE(38 == d);
@@ -268,7 +268,7 @@ TEST_CASE("Test computing distance with example configuration") {
     }
 
     SUBCASE("Use first 7 symbols") {
-        const int d = keyboard.dist(keyboard.getKeyIndex('u'),
+        const int d = dist(keyboard.getKeyIndex('u'),
                                     keyboard.getKeyIndex('t'));
         
         REQUIRE(38 == d);
@@ -276,7 +276,7 @@ TEST_CASE("Test computing distance with example configuration") {
     }
 
     SUBCASE("Use first 9 symbols") {
-        const int d = keyboard.dist(keyboard.getKeyIndex('d'),
+        const int d = dist(keyboard.getKeyIndex('d'),
                                     keyboard.getKeyIndex('m'));
         REQUIRE(48 == d);
         REQUIRE(5 * 38 + 48== keyboard.distance(Problem(input, 9), fingers));
@@ -293,7 +293,7 @@ TEST_CASE("Test computing distance handles finger crossing") {
     SUBCASE("Use vtr") {
         Problem p("vtr", 3);
         Fingers fingers = keyboard.initPosition(p);
-        const int d = keyboard.dist(keyboard.getKeyIndex('v'),
+        const int d = dist(keyboard.getKeyIndex('v'),
                                     keyboard.getKeyIndex('r'));
         REQUIRE(d == keyboard.distance(p, fingers));
     }
@@ -301,7 +301,7 @@ TEST_CASE("Test computing distance handles finger crossing") {
     SUBCASE("Use bty") {
         Problem p("bty", 3);
         Fingers fingers = keyboard.initPosition(p);
-        const int d = keyboard.dist(keyboard.getKeyIndex('b'),
+        const int d = dist(keyboard.getKeyIndex('b'),
                                     keyboard.getKeyIndex('y'));
         REQUIRE(d == keyboard.distance(p, fingers));
     }

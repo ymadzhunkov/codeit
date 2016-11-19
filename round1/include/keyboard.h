@@ -20,6 +20,7 @@ struct Fingers {
 };
 
 Point2D getKeyByIndex(const int index);
+int dist(const int key1, const int key2);
 
 class Keyboard {
 public:
@@ -31,8 +32,6 @@ public:
     int     getSecondKeyIndex(const Problem &problem,
                           const int firstKey) const;
     Fingers initPosition(const Problem & problem) const;
-    bool isLeft(const int key1, const int key2) const;
-    int dist(const int key1, const int key2) const;
     const Configuration &getConfiguration() const {
         return configuration;
     }

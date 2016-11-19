@@ -60,8 +60,6 @@ int Keyboard::getFirstKeyIndex(const Problem & problem) const {
 class InitializeCachedDistance {
   public:
     InitializeCachedDistance() {
-        Keyboard keyboard(
-            Configuration("qwertyuiopasdfghjklzxcvbnm"));
         for (int i = 0; i < 26; i++) {
             dist[i][i] = 0;
             for (int j = i + 1; j < 26; j++) {
@@ -77,27 +75,37 @@ class InitializeCachedDistance {
             left[i] = 0;
             sameX[i] = 0;
             for (int j = 0; j < 26; j++){
-                if (isLeft(keyboard, i, j)) left[i] |= (1 << j);
-                if (isSameX(keyboard, i, j)) sameX[i] |= (1 << j);
+                if (isLeft(i, j)) left[i] |= (1 << j);
+                if (isSameX(i, j)) sameX[i] |= (1 << j);
             }
         }
     }
-    bool isLeft(Keyboard &keyboard, const int i, const int j) const {
+private:
+    bool isLeft(const int i, const int j) const {
         Point2D firstPos = getKeyByIndex(i);
         Point2D secondPos = getKeyByIndex(j);
         return firstPos.x < secondPos.x;
     }
 
-    bool isSameX(Keyboard &keyboard, const int i, const int j) const {
+    bool isSameX(const int i, const int j) const {
         Point2D firstPos = getKeyByIndex(i);
         Point2D secondPos = getKeyByIndex(j);
         return firstPos.x == secondPos.x;
     }
-
+public:
     int dist[26][26];
     int left[26];
     int sameX[26];
 } cached;
+
+
+bool isLeft(const int key1, const int key2) {
+    return (cached.left[key1] & (1 << key2)) != 0;
+}
+
+int dist(const int key1, const int key2) {
+    return cached.dist[key1][key2];
+}
 
 int Keyboard::getSecondKeyIndex(const Problem &problem,
                                 const int firstKey) const {
@@ -129,12 +137,6 @@ Fingers Keyboard::initPosition(const Problem & problem) const {
 }
 
 
-bool Keyboard::isLeft(const int key1, const int key2) const {
-    return (cached.left[key1] & (1 << key2)) != 0;
-}
-int Keyboard::dist(const int key1, const int key2) const {
-    return cached.dist[key1][key2];
-}
 
 int Keyboard::distance(const Problem & problem,
                        const Fingers &initFingers) const {
