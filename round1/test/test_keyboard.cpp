@@ -4,109 +4,161 @@
 TEST_CASE("Test keyboard position with default configuration") {
     Configuration defaultConfiguration("qwertyuiopasdfghjklzxcvbnm");
     Keyboard keyboard(defaultConfiguration);
+
     SUBCASE("Test position of key Q") {
-        REQUIRE(keyboard.getPosition('q') == Point2D(85, 140));
+        int index = keyboard.getKeyIndex('q');
+        REQUIRE(index == 0);
+        REQUIRE(getKeyByIndex(index) == Point2D(85, 140));
     }
 
     SUBCASE("Test position of key A") {
-        REQUIRE(keyboard.getPosition('a') == Point2D(95, 179));
+        int index = keyboard.getKeyIndex('a');
+        REQUIRE(index == 10);
+        REQUIRE(getKeyByIndex(index) == Point2D(95, 179));
     }
 
     SUBCASE("Test position of key Z") {
-        REQUIRE(keyboard.getPosition('z') == Point2D(122, 219));
+        int index = keyboard.getKeyIndex('z');
+        REQUIRE(index == 19);
+        REQUIRE(getKeyByIndex(index) == Point2D(122, 219));
     }
 
     SUBCASE("Test position of key W") {
-        REQUIRE(keyboard.getPosition('w') == Point2D(123, 140));
+        int index = keyboard.getKeyIndex('w');
+        REQUIRE(index == 1);
+        REQUIRE(getKeyByIndex(index) == Point2D(123, 140));
     }
 
     SUBCASE("Test position of key S") {
-        REQUIRE(keyboard.getPosition('s') == Point2D(133, 179));
+        int index = keyboard.getKeyIndex('s');
+        REQUIRE(index == 11);
+        REQUIRE(getKeyByIndex(index) == Point2D(133, 179));
     }
 
     SUBCASE("Test position of key X") {
-        REQUIRE(keyboard.getPosition('x') == Point2D(160, 219));
+        int index = keyboard.getKeyIndex('x');
+        REQUIRE(index == 20);
+        REQUIRE(getKeyByIndex(index) == Point2D(160, 219));
     }
 
     SUBCASE("Test position of key E") {
-        REQUIRE(keyboard.getPosition('e') == Point2D(161, 140));
+        int index = keyboard.getKeyIndex('e');
+        REQUIRE(index == 2);
+        REQUIRE(getKeyByIndex(index) == Point2D(161, 140));
     }
 
     SUBCASE("Test position of key D") {
-        REQUIRE(keyboard.getPosition('d') == Point2D(171, 179));
+        int index = keyboard.getKeyIndex('d');
+        REQUIRE(index == 12);
+        REQUIRE(getKeyByIndex(index) == Point2D(171, 179));
     }
 
     SUBCASE("Test position of key C") {
-        REQUIRE(keyboard.getPosition('c') == Point2D(198, 219));
+        int index = keyboard.getKeyIndex('c');
+        REQUIRE(index == 21);
+        REQUIRE(getKeyByIndex(index) == Point2D(198, 219));
     }
 
     SUBCASE("Test position of key R") {
-        REQUIRE(keyboard.getPosition('r') == Point2D(199, 140));
+        int index = keyboard.getKeyIndex('r');
+        REQUIRE(index == 3);
+        REQUIRE(getKeyByIndex(index) == Point2D(199, 140));
     }
 
     SUBCASE("Test position of key F") {
-        REQUIRE(keyboard.getPosition('f') == Point2D(209, 179));
+        int index = keyboard.getKeyIndex('f');
+        REQUIRE(index == 13);
+        REQUIRE(getKeyByIndex(index) == Point2D(209, 179));
     }
 
     SUBCASE("Test position of key V") {
-        REQUIRE(keyboard.getPosition('v') == Point2D(236, 219));
+        int index = keyboard.getKeyIndex('v');
+        REQUIRE(index == 22);
+        REQUIRE(getKeyByIndex(index) == Point2D(236, 219));
     }
     SUBCASE("Test position of key T") {
-        REQUIRE(keyboard.getPosition('t') == Point2D(237, 140));
+        int index = keyboard.getKeyIndex('t');
+        REQUIRE(index == 4);
+        REQUIRE(getKeyByIndex(index) == Point2D(237, 140));
     }
 
     SUBCASE("Test position of key G") {
-        REQUIRE(keyboard.getPosition('g') == Point2D(247, 179));
+        int index = keyboard.getKeyIndex('g');
+        REQUIRE(index == 14);
+        REQUIRE(getKeyByIndex(index) == Point2D(247, 179));
     }
 
     SUBCASE("Test position of key B") {
-        REQUIRE(keyboard.getPosition('b') == Point2D(275, 219));
+        int index = keyboard.getKeyIndex('b');
+        REQUIRE(index == 23);
+        REQUIRE(getKeyByIndex(index) == Point2D(275, 219));
     }
 
     SUBCASE("Test position of key Y") {
-        REQUIRE(keyboard.getPosition('y') == Point2D(275, 140));
+        int index = keyboard.getKeyIndex('y');
+        REQUIRE(index == 5);
+        REQUIRE(getKeyByIndex(index) == Point2D(275, 140));
     }
 
     SUBCASE("Test position of key H") {
-        REQUIRE(keyboard.getPosition('h') == Point2D(285, 179));
+        int index = keyboard.getKeyIndex('h');
+        REQUIRE(index == 15);
+        REQUIRE(getKeyByIndex(index) == Point2D(285, 179));
     }
 
     SUBCASE("Test position of key U") {
-        REQUIRE(keyboard.getPosition('u') == Point2D(313, 140));
+        int index = keyboard.getKeyIndex('u');
+        REQUIRE(index == 6);
+        REQUIRE(getKeyByIndex(index) == Point2D(313, 140));
     }
 
     SUBCASE("Test position of key N") {
-        REQUIRE(keyboard.getPosition('n') == Point2D(313, 219));
+        int index = keyboard.getKeyIndex('n');
+        REQUIRE(index == 24);
+        REQUIRE(getKeyByIndex(index) == Point2D(313, 219));
     }
 
     SUBCASE("Test position of key J") {
-        REQUIRE(keyboard.getPosition('j') == Point2D(324, 179));
+        int index = keyboard.getKeyIndex('j');
+        REQUIRE(index == 16);
+        REQUIRE(getKeyByIndex(index) == Point2D(324, 179));
     }
 
     SUBCASE("Test position of key I") {
-        REQUIRE(keyboard.getPosition('i') == Point2D(351, 140));
+        int index = keyboard.getKeyIndex('i');
+        REQUIRE(index == 7);
+        REQUIRE(getKeyByIndex(index) == Point2D(351, 140));
     }
 
     SUBCASE("Test position of key M") {
-        REQUIRE(keyboard.getPosition('m') == Point2D(351, 219));
+        int index = keyboard.getKeyIndex('m');
+        REQUIRE(index == 25);
+        REQUIRE(getKeyByIndex(index) == Point2D(351, 219));
     }
 
     SUBCASE("Test position of key K") {
-        REQUIRE(keyboard.getPosition('k') == Point2D(362, 179));
+        int index = keyboard.getKeyIndex('k');
+        REQUIRE(index == 17);
+        REQUIRE(getKeyByIndex(index) == Point2D(362, 179));
     }
 
     SUBCASE("Test position of key O") {
-        REQUIRE(keyboard.getPosition('o') == Point2D(389, 140));
+        int index = keyboard.getKeyIndex('o');
+        REQUIRE(index == 8);
+        REQUIRE(getKeyByIndex(index) == Point2D(389, 140));
     }
 
     SUBCASE("Test position of key L") {
-        REQUIRE(keyboard.getPosition('l') == Point2D(400, 179));
+        int index = keyboard.getKeyIndex('l');
+        REQUIRE(index == 18);
+        REQUIRE(getKeyByIndex(index) == Point2D(400, 179));
     }
 
     SUBCASE("Test position of key P") {
-        REQUIRE(keyboard.getPosition('p') == Point2D(427, 140));
+        int index = keyboard.getKeyIndex('p');
+        REQUIRE(index == 9);
+        REQUIRE(getKeyByIndex(index) == Point2D(427, 140));
     }
-
 
 }
 
@@ -131,8 +183,8 @@ TEST_CASE("Test fingers position with example configuration") {
     }
     REQUIRE(fingers.right >= 0);
     REQUIRE(fingers.right <= 25);
-    Point2D leftFinger   = keyboard.getKeyByIndex(fingers.left);
-    Point2D rightFinger  = keyboard.getKeyByIndex(fingers.right);
+    Point2D leftFinger   = getKeyByIndex(fingers.left);
+    Point2D rightFinger  = getKeyByIndex(fingers.right);
     REQUIRE(leftFinger.x < rightFinger.x);
 }
 
@@ -174,8 +226,8 @@ TEST_CASE("Test fingers position with example configuration") {
         REQUIRE(fingers.left == 19);
         REQUIRE(fingers.right == 1);
     }
-    Point2D leftFinger = keyboard.getKeyByIndex(fingers.left);
-    Point2D rightFinger = keyboard.getKeyByIndex(fingers.right);
+    Point2D leftFinger = getKeyByIndex(fingers.left);
+    Point2D rightFinger = getKeyByIndex(fingers.right);
     REQUIRE(leftFinger.x < rightFinger.x);
 
 }

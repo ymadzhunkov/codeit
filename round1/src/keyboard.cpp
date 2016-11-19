@@ -13,6 +13,7 @@ bool operator==(const Point2D &a, const Point2D &b) {
 Point2D getKeyFirstRow(const int indexInRow) {
     return Point2D(85 + indexInRow * 38, 140);
 }
+
 Point2D getKeySecondRow(const int indexInRow) {
     return Point2D(95 + indexInRow * 38 + (indexInRow > 5 ? 1 : 0),
                    179);
@@ -22,7 +23,7 @@ Point2D getKeyThirdRow(const int indexInRow) {
                    219);
 }
 
-Point2D Keyboard::getKeyByIndex(const int index) const {
+Point2D getKeyByIndex(const int index) {
     return (index < 10) ? getKeyFirstRow(index)
                         : (index < 19) ? getKeySecondRow(index - 10)
                                        : getKeyThirdRow(index - 19);
@@ -34,11 +35,6 @@ int Keyboard::getKeyIndex(const char key) const {
     return sizeof(configuration.mapping) - 1;
 }
 
-Point2D Keyboard::getPosition(char key) const {
-    const int index = getKeyIndex(key);
-    return getKeyByIndex(index);
-
-}
 
 Keyboard::Keyboard(const Configuration mapping)
     : configuration(mapping) {}
@@ -69,8 +65,8 @@ class InitializeCachedDistance {
         for (int i = 0; i < 26; i++) {
             dist[i][i] = 0;
             for (int j = i + 1; j < 26; j++) {
-                Point2D p1 = keyboard.getKeyByIndex(i);
-                Point2D p2 = keyboard.getKeyByIndex(j);
+                Point2D p1 = getKeyByIndex(i);
+                Point2D p2 = getKeyByIndex(j);
                 const int val =
                     roundf(sqrtf((p1.x - p2.x) * (p1.x - p2.x) +
                                  (p1.y - p2.y) * (p1.y - p2.y)));
@@ -87,14 +83,14 @@ class InitializeCachedDistance {
         }
     }
     bool isLeft(Keyboard &keyboard, const int i, const int j) const {
-        Point2D firstPos = keyboard.getKeyByIndex(i);
-        Point2D secondPos = keyboard.getKeyByIndex(j);
+        Point2D firstPos = getKeyByIndex(i);
+        Point2D secondPos = getKeyByIndex(j);
         return firstPos.x < secondPos.x;
     }
 
     bool isSameX(Keyboard &keyboard, const int i, const int j) const {
-        Point2D firstPos = keyboard.getKeyByIndex(i);
-        Point2D secondPos = keyboard.getKeyByIndex(j);
+        Point2D firstPos = getKeyByIndex(i);
+        Point2D secondPos = getKeyByIndex(j);
         return firstPos.x == secondPos.x;
     }
 
