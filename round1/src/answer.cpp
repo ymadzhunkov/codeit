@@ -3,21 +3,15 @@
 #include <cstring>
 
 Answer::Answer(std::minstd_rand &generator, const Answer &sol,
-                   const Problem &problem)
-    : Answer(
-          Configuration(sol.keyboard.getConfiguration(), generator()),
-          problem) {
-    
-}
+               const Problem &problem)
+    : keyboard(sol.keyboard, generator()),
+      dist(keyboard.distance(problem)) {}
 
-Configuration randomConfig(std::minstd_rand &generator) {
-    Configuration res("iutdjncorepbmyagshkwlxzqvf");
-    for (int i = 0; i < sizeof(res.mapping); i++) {
+Keyboard randomConfig(std::minstd_rand &generator) {
+    Keyboard res("iutdjncorepbmyagshkwlxzqvf");
+    for (int i = 0; i < sizeof(res); i++) {
         uint32_t r = generator();
-        int j = r % sizeof(res.mapping);
-        char a = res.mapping[i];
-        res.mapping[i] = res.mapping[j];
-        res.mapping[j] = a;
+        res.mutate(r);
     }
     return res;
 }
@@ -31,8 +25,8 @@ Answer::Answer(std::minstd_rand &generator,
 void Answer::write(FILE *file, const Problem &problem) {
     Fingers fingers = keyboard.initPosition(problem);
     fprintf(file, "%d %d\n", fingers.left+1, fingers.right+1);
-    char d[32];
-    memcpy(d, keyboard.getConfiguration().mapping, 26);
-    d[26] = '\0';
-    fprintf(file, "%s\n", d);
+    char mapping[32];
+    keyboard.getMapping(mapping);
+    mapping[26] = '\0';
+    fprintf(file, "%s\n", mapping);
 }

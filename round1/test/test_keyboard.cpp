@@ -2,8 +2,7 @@
 #include "keyboard.h"
 #include "answer.h"
 TEST_CASE("Test keyboard position with default configuration") {
-    Configuration defaultConfiguration("qwertyuiopasdfghjklzxcvbnm");
-    Keyboard keyboard(defaultConfiguration);
+    Keyboard keyboard("qwertyuiopasdfghjklzxcvbnm");
 
     SUBCASE("Test position of key Q") {
         int index = keyboard.getKeyIndex('q');
@@ -163,8 +162,7 @@ TEST_CASE("Test keyboard position with default configuration") {
 }
 
 TEST_CASE("Test fingers position with example configuration") {
-    Configuration defaultConfiguration("qwertyuiopasdfghjklzxcvbnm");
-    Keyboard keyboard(defaultConfiguration);
+    Keyboard keyboard("qwertyuiopasdfghjklzxcvbnm");
     Fingers fingers;
     SUBCASE("B first") {
         fingers = keyboard.initPosition(Problem("by", 2));
@@ -189,7 +187,7 @@ TEST_CASE("Test fingers position with example configuration") {
 }
 
 TEST_CASE("Test fingers position with example configuration") {
-    Keyboard keyboard(Configuration("iutdjncorepbmyagshkwlxzqvf"));
+    Keyboard keyboard("iutdjncorepbmyagshkwlxzqvf");
     Fingers fingers;
     SUBCASE("input length 1") {
         fingers = keyboard.initPosition(Problem("i", 1));
@@ -233,7 +231,7 @@ TEST_CASE("Test fingers position with example configuration") {
 }
 
 TEST_CASE("Test computing distance with example configuration") {
-    Keyboard keyboard(Configuration("iutdjncorepbmyagshkwlxzqvf"));
+    Keyboard keyboard("iutdjncorepbmyagshkwlxzqvf");
     const char * input = "iroirutdmyxlubr";
     Fingers fingers = keyboard.initPosition(Problem(input, 2));
 
@@ -288,7 +286,7 @@ TEST_CASE("Test computing distance with example configuration") {
 }
 
 TEST_CASE("Test computing distance handles finger crossing") {
-    Keyboard keyboard(Configuration("qwertyuiopasdfghjklzxcvbnm"));
+    Keyboard keyboard("qwertyuiopasdfghjklzxcvbnm");
 
     SUBCASE("Use vtr") {
         Problem p("vtr", 3);
@@ -313,7 +311,7 @@ TEST_CASE("Test if mutation of solution leads to differnt solution") {
     const char * input = "helloworldhelloworld";
 
     Problem p(input, 20);
-    Answer sol(Configuration("iutdjncorepbmyagshkwlxzqvf"), p);
+    Answer sol(Keyboard("iutdjncorepbmyagshkwlxzqvf"), p);
 
     auto rnd = std::minstd_rand(1234);
     Answer sol2(rnd, sol, p);

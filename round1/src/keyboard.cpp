@@ -30,26 +30,26 @@ Point2D getKeyByIndex(const int index) {
 }
 
 int Keyboard::getKeyIndex(const char key) const {
-    for (int i = 0; i < sizeof(configuration.mapping) - 1; i++)
-        if (configuration.mapping[i] == key) return i;
-    return sizeof(configuration.mapping) - 1;
+    for (int i = 0; i < sizeof(mapping) - 1; i++)
+        if (mapping[i] == key) return i;
+    return sizeof(mapping) - 1;
 }
 
-
-Keyboard::Keyboard(const Configuration mapping)
-    : configuration(mapping) {}
-
-
-Configuration::Configuration(const char * str) {
+Keyboard::Keyboard(const char * str) {
     memcpy(mapping, str, sizeof(mapping));
 }
-Configuration::Configuration(const Configuration & conf, uint32_t mutation) {
-    memcpy(mapping, conf.mapping, sizeof(mapping));
+
+void Keyboard::mutate(uint32_t mutation) {
     uint32_t i = mutation % 26;
     uint32_t j = (mutation >> 8) % 26;
     char a = mapping[i];
     mapping[i] = mapping[j];
     mapping[j] = a;
+
+}
+Keyboard::Keyboard(const Keyboard & oth, uint32_t mutation) {
+    memcpy(mapping, oth.mapping, sizeof(mapping));
+    mutate(mutation);
 }
 
 int Keyboard::getFirstKeyIndex(const Problem & problem) const {
@@ -157,4 +157,6 @@ int Keyboard::distance(const Problem & problem) const {
     return distance;
 }
 
-
+void Keyboard::getMapping(char *map) const {
+    for (int i = 0; i < sizeof(mapping); i++) map[i] = mapping[i];
+}

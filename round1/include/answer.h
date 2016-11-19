@@ -6,10 +6,8 @@ class Answer {
   public:
     Answer(std::minstd_rand &generator, const Problem &problem);
 
-    Answer(const Configuration configuration,
-             const Problem &problem)
-        : keyboard(configuration),
-          dist(keyboard.distance(problem)) {}
+    Answer(const Keyboard keyboard, const Problem &problem)
+        : keyboard(keyboard), dist(keyboard.distance(problem)) {}
 
     Answer(std::minstd_rand &generator, const Answer &sol,
              const Problem &problem);

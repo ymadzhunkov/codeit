@@ -9,11 +9,6 @@ struct Point2D {
     friend bool operator==(const Point2D &a, const Point2D &b);
 };
 
-struct Configuration {
-    Configuration(const char * str);
-    char mapping[26];
-    Configuration(const Configuration & conf, uint32_t mutation);
-};
 
 struct Fingers {
     int left, right;
@@ -24,18 +19,18 @@ int dist(const int key1, const int key2);
 
 class Keyboard {
 public:
-    Keyboard(const Configuration mapping);
+    Keyboard(const char * map);
+    Keyboard(const Keyboard & keyboard, uint32_t mutation);
     int     distance(const Problem &problem) const;
     int     getKeyIndex(const char key) const;
     int     getFirstKeyIndex(const Problem & problem) const;
     int     getSecondKeyIndex(const Problem &problem,
                           const int firstKey) const;
     Fingers initPosition(const Problem & problem) const;
-    const Configuration &getConfiguration() const {
-        return configuration;
-    }
 
+    void    mutate(uint32_t mutation);
+    void    getMapping(char * map) const;
 private:
-    Configuration configuration; 
+    char mapping[26];
 };
 

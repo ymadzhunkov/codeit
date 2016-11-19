@@ -4,7 +4,7 @@
 #include <cstring>
 
 TEST_CASE("Test if solution writes properly to file") {
-    Configuration conf("iutdjncorepbmyagshkwlxzqvf");
+    Keyboard conf("iutdjncorepbmyagshkwlxzqvf");
     Problem problem("iroirutdmyxlubr", 15);
     Answer s(conf, problem);
 
