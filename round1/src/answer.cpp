@@ -1,6 +1,5 @@
 #include "keyboard.h"
 #include "answer.h"
-#include <cstring>
 
 Answer::Answer(std::minstd_rand &generator, const Answer &sol,
                const Problem &problem)
@@ -16,11 +15,8 @@ Keyboard randomConfig(std::minstd_rand &generator) {
     return res;
 }
 
-
-Answer::Answer(std::minstd_rand &generator,
-                   const Problem &problem)
-    : Answer(randomConfig(generator), problem) {
-}
+Answer::Answer(std::minstd_rand &generator, const Problem &problem)
+    : Answer(randomConfig(generator), problem) {}
 
 void Answer::write(FILE *file, const Problem &problem) {
     Fingers fingers = keyboard.initPosition(problem);
