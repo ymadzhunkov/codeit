@@ -16,15 +16,16 @@ Answer &&SimulatedAnnealing::optimize(const uint32_t seed) const {
     Answer best = state;
     size_t iter = 0;
     for (; terminationCreiteria(iter); iter++) {
-        Answer candidate(rnd, state, problem);
+        const int oldDist = state.getFitness();
+        const uint32_t mutation = rnd();
+        state.mutate(mutation, problem);
 
-        if (best.getFitness() > candidate.getFitness())
-            best = candidate;
+        if (best.getFitness() > state.getFitness())
+            best = state;
 
         const float temp = getTemperature(iter);
-        if (shouldMove(state.getFitness(), candidate.getFitness(),
-                       temp, rnd))
-            state = candidate;
+        if (!shouldMove(oldDist, state.getFitness(), temp, rnd))
+            state.unmutate(mutation, oldDist);
     }
 
     // update stats
@@ -89,15 +90,5 @@ void reportStats(FILE * file, const Statistics & stats) {
             stats.CPUTimeInSeconds);
     fprintf(file, "Real time            = %.2f sec\n",
             stats.RealTimeInSeconds);
-
-//    fprintf(file, "computation speed = %.2f iter/ms\n");
-//    fprintf(file, "computation speed = %.2f iter/ms\n");
-    
-/*    std::cout << totalIter / duration << " iter/ms\n"
-              << "CPU time used: " << 1000.0 * (c_end - c_start) /
-                                          CLOCKS_PER_SEC << " ms\n"
-              << "Wall clock time passed: " << duration << " ms\n"
-              << "Distance = " << best->dist << "\n";
-*/
 }
 

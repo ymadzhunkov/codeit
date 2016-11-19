@@ -9,8 +9,9 @@ class Answer {
     Answer(const Keyboard keyboard, const Problem &problem)
         : keyboard(keyboard), dist(keyboard.distance(problem)) {}
 
-    Answer(std::minstd_rand &generator, const Answer &sol,
-             const Problem &problem);
+    void mutate(const uint32_t mutation, const Problem &problem);
+
+    void unmutate(const uint32_t mutation, const int prevDist);
 
     void write(FILE * file, const Problem &problem);
 

@@ -308,19 +308,16 @@ TEST_CASE("Test computing distance handles finger crossing") {
 
 
 TEST_CASE("Test if mutation of solution leads to differnt solution") {
-    const char * input = "helloworldhelloworld";
-
-    Problem p(input, 20);
+    Problem p("helloworldhelloworld", 20);
     Answer sol(Keyboard("iutdjncorepbmyagshkwlxzqvf"), p);
+    int dist = sol.dist;
+    uint32_t mutation = 12345;
 
-    auto rnd = std::minstd_rand(1234);
-    Answer sol2(rnd, sol, p);
-    REQUIRE(sol2.dist != sol.dist);
+    sol.mutate(mutation, p);
+    REQUIRE(dist != sol.dist);
 
-    sol2 = sol;
-
-    REQUIRE(sol2.dist == sol.dist);
-    
+    sol.unmutate(mutation, dist);
+    REQUIRE(dist == sol.dist);
 }
 
 

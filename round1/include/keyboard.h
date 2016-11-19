@@ -20,7 +20,6 @@ int dist(const int key1, const int key2);
 class Keyboard {
 public:
     Keyboard(const char * map);
-    Keyboard(const Keyboard & keyboard, uint32_t mutation);
     int     distance(const Problem &problem) const;
     int     getKeyIndex(const char key) const;
     int     getFirstKeyIndex(const Problem & problem) const;

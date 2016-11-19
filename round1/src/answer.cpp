@@ -1,22 +1,11 @@
 #include "keyboard.h"
 #include "answer.h"
 
-Answer::Answer(std::minstd_rand &generator, const Answer &sol,
-               const Problem &problem)
-    : keyboard(sol.keyboard, generator()),
-      dist(keyboard.distance(problem)) {}
-
-Keyboard randomConfig(std::minstd_rand &generator) {
-    Keyboard res("iutdjncorepbmyagshkwlxzqvf");
-    for (int i = 0; i < sizeof(res); i++) {
-        uint32_t r = generator();
-        res.mutate(r);
-    }
-    return res;
-}
-
 Answer::Answer(std::minstd_rand &generator, const Problem &problem)
-    : Answer(randomConfig(generator), problem) {}
+    : Answer(Keyboard("iutdjncorepbmyagshkwlxzqvf"), problem) {
+    for (int i = 0; i < 20; i++) 
+        keyboard.mutate(generator());
+}
 
 void Answer::write(FILE *file, const Problem &problem) {
     Fingers fingers = keyboard.initPosition(problem);
@@ -25,4 +14,14 @@ void Answer::write(FILE *file, const Problem &problem) {
     keyboard.getMapping(mapping);
     mapping[26] = '\0';
     fprintf(file, "%s\n", mapping);
+}
+
+void Answer::mutate(const uint32_t mutation, const Problem &problem) {
+    keyboard.mutate(mutation);
+    dist = keyboard.distance(problem);
+}
+
+void Answer::unmutate(const uint32_t mutation, const int prevDist) {
+    keyboard.mutate(mutation);
+    dist = prevDist;
 }

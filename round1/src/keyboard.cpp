@@ -46,11 +46,6 @@ void Keyboard::mutate(uint32_t mutation) {
     mapping[j] = a;
 }
 
-Keyboard::Keyboard(const Keyboard & oth, uint32_t mutation) {
-    memcpy(mapping, oth.mapping, sizeof(mapping));
-    mutate(mutation);
-}
-
 int Keyboard::getFirstKeyIndex(const Problem & problem) const {
     return problem.getSize() > 0 ? getKeyIndex(problem.getInput()[0])
                                 : -1;
