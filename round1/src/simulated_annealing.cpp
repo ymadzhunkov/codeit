@@ -1,12 +1,11 @@
 #include "simulated_annealing.h"
 #include "problem.h"
 #include "answer.h"
+#include "progress.h"
 
 SimulatedAnnealing::SimulatedAnnealing(const Problem &problem,
-                                       const float timelimit)
-    : t_start(std::chrono::high_resolution_clock::now()),
-      c_start(std::clock()), timelimit(timelimit), problem(problem) {
-}
+                                       const Progress &progress)
+    : problem(problem), progress(progress) {}
 
 SimulatedAnnealing::~SimulatedAnnealing(){}
 
@@ -14,28 +13,30 @@ Answer &&SimulatedAnnealing::optimize(const uint32_t seed) const {
     auto rnd = std::minstd_rand(seed);
     Answer state(rnd, problem);
     Answer best = state;
-    size_t iter = 0;
-    for (; terminationCreiteria(iter); iter++) {
-        const int oldDist = state.getFitness();
-        const uint32_t mutation = rnd();
-        state.mutate(mutation, problem);
+    ProgressMetrics metrics;
 
-        if (best.getFitness() > state.getFitness())
-            best = state;
+    while (progress.update(metrics) < 1.0f) {
+        const float temp = getTemperature(metrics.numIterations);
+        const unsigned int chunk = 512;
+        for (unsigned int k = 0; k < chunk; k++) {
+            const int oldDist = state.getFitness();
+            const uint32_t mutation = rnd();
+            state.mutate(mutation, problem);
 
-        const float temp = getTemperature(iter);
-        if (!shouldMove(oldDist, state.getFitness(), temp, rnd))
-            state.unmutate(mutation, oldDist);
+            if (best.getFitness() > state.getFitness()) {
+                best = state;
+                metrics.numBestUpdates++;
+            }
+
+            if (!shouldMove(oldDist, state.getFitness(), temp, rnd))
+                state.unmutate(mutation, oldDist);
+            else
+                metrics.numTransitions++;
+        }
+        metrics.currentState = state.getFitness();
+        metrics.currentBest  = best.getFitness();
+        metrics.numIterations += chunk;
     }
-
-    // update stats
-    stats.problemSize = problem.getSize();
-    stats.performedIterations = iter;
-    stats.usedSeed = seed;
-
-    stats.CPUTimeInSeconds = getCPUTime();
-    stats.RealTimeInSeconds = getRealTime();
-    stats.bestAnswer = best.getFitness();
     return std::move(best);
 }
 
@@ -52,43 +53,11 @@ bool SimulatedAnnealing::shouldMove(
         }
 }
 
-float SimulatedAnnealing::getCPUTime() const {
-    std::clock_t c_end = std::clock();
-    return (c_end - c_start) * (1.0f / CLOCKS_PER_SEC);
-}
 
-float SimulatedAnnealing::getRealTime() const {
-    auto t_end = std::chrono::high_resolution_clock::now();
-    return std::chrono::duration<float>(t_end - t_start).count();
-}
-
-bool SimulatedAnnealing::inTime() const {
-    return getRealTime() < timelimit;
-}
-
-bool SimulatedAnnealing::terminationCreiteria(const size_t iteration)
-    const {
-    if ((iteration & 127) == 0)
-        return inTime();
-    else 
-        return true;
-}
 
 float
 SimulatedAnnealing::getTemperature(const size_t iteration) const {
     return 20.0 * (1.0 + 20.0/(iteration*iteration));
 }
 
-void reportStats(FILE * file, const Statistics & stats) {
-    fprintf(file, "performed iterations = %d\n",
-            stats.performedIterations);
-    fprintf(file, "computation speed    = %.2f iter/s\n",
-            stats.performedIterations / stats.RealTimeInSeconds);
-    fprintf(file, "best fitness reached = %.0f\n",
-            stats.bestAnswer);
-    fprintf(file, "CPU time             = %.2f sec\n",
-            stats.CPUTimeInSeconds);
-    fprintf(file, "Real time            = %.2f sec\n",
-            stats.RealTimeInSeconds);
-}
 

@@ -12,6 +12,7 @@ set(SOURCES
     "../src/keyboard.cpp"
     "../src/answer.cpp"
     "../src/problem.cpp"
+    "../src/progress.cpp"
     "../src/simulated_annealing.cpp"
 )
 
