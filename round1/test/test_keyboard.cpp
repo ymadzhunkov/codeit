@@ -312,11 +312,15 @@ TEST_CASE("Test if mutation of solution leads to differnt solution") {
     Answer sol(Keyboard("iutdjncorepbmyagshkwlxzqvf"), p);
     int dist = sol.dist;
     uint32_t mutation = 12345;
+    const int i = mutation % 26;
+    const int j = (mutation >> 8) % 26;
 
-    sol.mutate(mutation, p);
+    sol.keyboard.swapKeys(i, j);
+    sol.dist = sol.keyboard.distance(p);
     REQUIRE(dist != sol.dist);
 
-    sol.unmutate(mutation, dist);
+    sol.keyboard.swapKeys(i, j);
+    sol.dist = sol.keyboard.distance(p);
     REQUIRE(dist == sol.dist);
 }
 

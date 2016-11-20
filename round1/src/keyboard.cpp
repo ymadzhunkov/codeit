@@ -38,9 +38,7 @@ Keyboard::Keyboard(const char *str) {
         mapping[str[i] - 'a'] = i;
 }
 
-void Keyboard::mutate(uint32_t mutation) {
-    uint32_t i = mutation % 26;
-    uint32_t j = (mutation >> 8) % 26;
+void Keyboard::swapKeys(const int i, const int j) {
     char a = mapping[i];
     mapping[i] = mapping[j];
     mapping[j] = a;

@@ -9,6 +9,7 @@ SimulatedAnnealing::SimulatedAnnealing(const Problem &problem,
 
 SimulatedAnnealing::~SimulatedAnnealing(){}
 
+
 Answer &&SimulatedAnnealing::optimize(const uint32_t seed) const {
     auto rnd = std::minstd_rand(seed);
     Answer state(rnd, problem);
@@ -19,22 +20,27 @@ Answer &&SimulatedAnnealing::optimize(const uint32_t seed) const {
         const float temp = getTemperature(metrics);
         const unsigned int chunk = 512;
         for (unsigned int k = 0; k < chunk; k++) {
-            const int oldDist = state.getFitness();
             const uint32_t mutation = rnd();
-            state.mutate(mutation, problem);
+            const uint32_t i =  mutation % 26;
+            const uint32_t j = (mutation >> 8) % 26;
 
-            if (best.getFitness() > state.getFitness()) {
-                best = state;
-                metrics.numBestUpdates++;
+            state.keyboard.swapKeys(i, j);
+            const int newDist = state.keyboard.distance(problem);
+
+            if (!shouldMove(state.dist, newDist, temp, rnd)) {
+                state.keyboard.swapKeys(i, j);
+            } else {
+                metrics.numTransitions++;
+                state.dist = newDist;
+                if (best.dist > state.dist) {
+                    best = state;
+                    metrics.numBestUpdates++;
+                }
             }
 
-            if (!shouldMove(oldDist, state.getFitness(), temp, rnd))
-                state.unmutate(mutation, oldDist);
-            else
-                metrics.numTransitions++;
         }
-        metrics.currentState = state.getFitness();
-        metrics.currentBest  = best.getFitness();
+        metrics.currentState = state.dist;
+        metrics.currentBest  = best.dist;
         metrics.numIterations += chunk;
     }
     return std::move(best);
@@ -43,19 +49,15 @@ Answer &&SimulatedAnnealing::optimize(const uint32_t seed) const {
 bool SimulatedAnnealing::shouldMove(
     const float fitness, const float newFitness, const float temp,
     std::minstd_rand &generator) const {
-        if (newFitness < fitness) {
-            return true;
-        } else {
-            const float distance = newFitness - fitness;
-            const float prob = 1.0 - expf(-distance / temp);
-            std::uniform_real_distribution<float> uniform(0.0, 1.0);
-            return prob < uniform(generator); 
-        }
+    std::uniform_real_distribution<float> uniform(0.0, 1.0);
+    int exp;
+    frexpf(uniform(generator), &exp);
+    return fitness - newFitness > exp * temp;
 }
 
 float SimulatedAnnealing::getTemperature(
     const ProgressMetrics &metrics) const {
-    return 20.0 * (1.0 + 20.0 / (metrics.numIterations *
+    return log2f(3.14) * 20.0 * (1.0 + 20.0 / (metrics.numIterations *
                                  metrics.numIterations));
 }
 

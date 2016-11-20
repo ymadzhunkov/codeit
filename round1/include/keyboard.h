@@ -27,7 +27,7 @@ public:
                           const int firstKey) const;
     Fingers initPosition(const Problem & problem) const;
 
-    void    mutate(uint32_t mutation);
+    void    swapKeys(const int i, const int j);
     void    getMapping(char * map) const;
 private:
     char mapping[26];
