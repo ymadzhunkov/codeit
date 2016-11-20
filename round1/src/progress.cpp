@@ -17,7 +17,10 @@ float Progress::getRealTime() const {
 
 float Progress::update(const ProgressMetrics & metrics) const {
     this->metrics = metrics;
-    return getRealTime() * rtimelimit; 
+    float progress = getRealTime() * rtimelimit;
+//    printf("%.2f %.0f %.0f\n", progress, metrics.currentState,
+//           metrics.currentBest);
+    return progress; 
 }
 
 ProgressMetrics::ProgressMetrics()
@@ -35,10 +38,10 @@ void Progress::report(FILE *file) const {
             metrics.numTransitions);
     fprintf(file, "number of best update = %d\n",
             metrics.numBestUpdates);
-    fprintf(file, "computation speed    = %.2f MIter/s\n",
+    fprintf(file, "computation speed     = %.2f MIter/s\n",
             metrics.numIterations / (1.0e6f * real));
-    fprintf(file, "best fitness reached = %.0f\n",
+    fprintf(file, "best fitness reached  = %.0f\n",
             metrics.currentBest);
-    fprintf(file, "CPU time             = %.2f sec\n", user);
-    fprintf(file, "Real time            = %.2f sec\n", real);
+    fprintf(file, "CPU time              = %.2f sec\n", user);
+    fprintf(file, "Real time             = %.2f sec\n", real);
 }

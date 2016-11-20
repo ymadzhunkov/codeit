@@ -16,7 +16,7 @@ Answer &&SimulatedAnnealing::optimize(const uint32_t seed) const {
     ProgressMetrics metrics;
 
     while (progress.update(metrics) < 1.0f) {
-        const float temp = getTemperature(metrics.numIterations);
+        const float temp = getTemperature(metrics);
         const unsigned int chunk = 512;
         for (unsigned int k = 0; k < chunk; k++) {
             const int oldDist = state.getFitness();
@@ -53,11 +53,9 @@ bool SimulatedAnnealing::shouldMove(
         }
 }
 
-
-
-float
-SimulatedAnnealing::getTemperature(const size_t iteration) const {
-    return 20.0 * (1.0 + 20.0/(iteration*iteration));
+float SimulatedAnnealing::getTemperature(
+    const ProgressMetrics &metrics) const {
+    return 20.0 * (1.0 + 20.0 / (metrics.numIterations *
+                                 metrics.numIterations));
 }
-
 

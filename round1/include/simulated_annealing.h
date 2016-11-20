@@ -4,6 +4,7 @@
 class Answer;
 class Problem;
 class Progress;
+class ProgressMetrics;
 
 class SimulatedAnnealing {
   public:
@@ -17,7 +18,7 @@ class SimulatedAnnealing {
                     const float temp,
                     std::minstd_rand &generator) const;
 
-    float getTemperature(const size_t iteration) const;
+    float getTemperature(const ProgressMetrics & metrics) const;
 
   private:
     const Problem  & problem;
