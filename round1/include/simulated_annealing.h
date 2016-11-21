@@ -1,10 +1,10 @@
 #pragma once
 #include <random>
-
-class Answer;
+#include "answer.h"
 class Problem;
 class Progress;
 class ProgressMetrics;
+struct ReverseTransition;
 
 class SimulatedAnnealing {
   public:
@@ -12,15 +12,27 @@ class SimulatedAnnealing {
                        const Progress &progress);
     ~SimulatedAnnealing();
 
-    Answer && optimize(const uint32_t seed) const;
+    void optimize(const uint32_t seed) const;
 
-    bool shouldMove(const float fitness, const float newFitness,
-                    const float temp,
-                    std::minstd_rand &generator) const;
+    bool shouldReverseTransition(const float fitness,
+                                 const float newFitness,
+                                 const float temp,
+                                 std::minstd_rand &generator) const;
 
     float getTemperature(const ProgressMetrics & metrics) const;
+
+    ReverseTransition &&transition(Answer &state,
+                                   std::minstd_rand &generator,
+                                   const Problem &problem) const;
+
+    void reverse(Answer &state, const ReverseTransition rev) const;
+
+    void keep(Answer &state, ProgressMetrics &metrics) const;
+
+    const Answer & getBest() const { return best; }
 
   private:
     const Problem  & problem;
     const Progress & progress;
+    mutable Answer best;
 };

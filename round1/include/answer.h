@@ -4,12 +4,12 @@
 
 class Answer {
   public:
-    Answer(std::minstd_rand &generator, const Problem &problem);
+    Answer(const Problem &problem);
 
     Answer(const Keyboard keyboard, const Problem &problem)
         : keyboard(keyboard), dist(keyboard.distance(problem)) {}
 
-    void write(FILE * file, const Problem &problem);
+    void write(FILE * file, const Problem &problem) const;
 
     Keyboard keyboard;
     int dist;
