@@ -14,10 +14,8 @@ class SimulatedAnnealing {
 
     void optimize(const uint32_t seed) const;
 
-    bool shouldReverseTransition(const float fitness,
-                                 const float newFitness,
-                                 const float temp,
-                                 std::minstd_rand &generator) const;
+    bool keepTransition(Answer &state, ProgressMetrics &metrics,
+                          std::minstd_rand &generator) const;
 
     float getTemperature(const ProgressMetrics & metrics) const;
 
@@ -27,10 +25,11 @@ class SimulatedAnnealing {
 
     void reverse(Answer &state, const ReverseTransition rev) const;
 
-    void keep(Answer &state, ProgressMetrics &metrics) const;
+    void updateBest(Answer &state, ProgressMetrics &metrics) const;
 
     const Answer & getBest() const { return best; }
 
+    Answer && initState(std::minstd_rand &generator) const;
   private:
     const Problem  & problem;
     const Progress & progress;

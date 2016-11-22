@@ -7,7 +7,7 @@ SimulatedAnnealing::SimulatedAnnealing(const Problem &problem,
                                        const Progress &progress)
     : problem(problem), progress(progress), best(problem) {}
 
-SimulatedAnnealing::~SimulatedAnnealing(){}
+SimulatedAnnealing::~SimulatedAnnealing() {}
 
 struct ReverseTransition {
     int i, j;
@@ -30,60 +30,62 @@ void SimulatedAnnealing::reverse(Answer &state,
     state.keyboard.swapKeys(rev.i, rev.j);
 }
 
-void SimulatedAnnealing::keep(Answer &state,
-                              ProgressMetrics &metrics) const {
-    metrics.numTransitions++;
+void SimulatedAnnealing::updateBest(Answer &state,
+                                    ProgressMetrics &metrics) const {
     if (best.dist > state.dist) {
         best = state;
         metrics.numBestUpdates++;
     }
 }
 
+Answer &&SimulatedAnnealing::initState(std::minstd_rand &rnd) const {
+    Answer state(problem);
+    for (int i = 0; i < 26; i++)
+        state.keyboard.swapKeys(i % 26, rnd() % 26);
+    state.dist = state.keyboard.distance(problem);
+    return std::move(state);
+}
 
 void SimulatedAnnealing::optimize(const uint32_t seed) const {
     std::minstd_rand rnd(seed);
-
-    Answer state(problem);
-    for (int i = 0; i < 26; i++)
-        state.keyboard.swapKeys(i, rnd() % 26);
-    state.dist = state.keyboard.distance(problem);
-
+    Answer state = initState(rnd);
     ProgressMetrics metrics;
+    const unsigned int chunk = 512;
 
     while (progress.update(metrics) < 1.0f) {
-        const float temp = getTemperature(metrics);
-        const unsigned int chunk = 512;
         for (unsigned int k = 0; k < chunk; k++) {
             ReverseTransition rev = transition(state, rnd, problem);
-            const int newDist = state.keyboard.distance(problem);
-
-            if (shouldReverseTransition(state.dist, newDist, temp,
-                                        rnd)) {
+            if (!keepTransition(state, metrics, rnd))
                 reverse(state, rev);
-            } else {
-                state.dist = newDist;
-                keep(state, metrics);
-            }
-
         }
         metrics.currentState = state.dist;
-        metrics.currentBest  = best.dist;
+        metrics.currentBest = best.dist;
         metrics.numIterations += chunk;
     }
 }
 
-bool SimulatedAnnealing::shouldReverseTransition(
-    const float fitness, const float newFitness, const float temp,
+bool SimulatedAnnealing::keepTransition(
+    Answer &state, ProgressMetrics &metrics,
     std::minstd_rand &generator) const {
+
+    const float temp = getTemperature(metrics);
     std::uniform_real_distribution<float> uniform(0.0, 1.0);
     int exp;
     frexpf(uniform(generator), &exp);
-    return fitness - newFitness < exp * temp;
+    const int newFitness = state.keyboard.distance(problem);
+    const bool keepTrans = state.dist - newFitness >= exp * temp;
+    if (keepTrans) {
+        state.dist = newFitness;
+        metrics.numTransitions++;
+        updateBest(state, metrics);
+    }
+    return keepTrans;
 }
 
 float SimulatedAnnealing::getTemperature(
     const ProgressMetrics &metrics) const {
-    return log2f(3.14) * 20.0 * (1.0 + 20.0 / (metrics.numIterations *
-                                 metrics.numIterations));
+    return log2f(2.71) * 20.0 *
+           (1.0 +
+            20.0 / (metrics.numIterations * metrics.numIterations));
 }
 
