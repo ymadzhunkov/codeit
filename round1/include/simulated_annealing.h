@@ -20,8 +20,7 @@ class SimulatedAnnealing {
     float getTemperature(const ProgressMetrics & metrics) const;
 
     ReverseTransition &&transition(Answer &state,
-                                   std::minstd_rand &generator,
-                                   const Problem &problem) const;
+                                   std::minstd_rand &generator) const;
 
     void reverse(Answer &state, const ReverseTransition rev) const;
 

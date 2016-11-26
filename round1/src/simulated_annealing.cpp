@@ -10,13 +10,12 @@ SimulatedAnnealing::SimulatedAnnealing(const Problem &problem,
 SimulatedAnnealing::~SimulatedAnnealing() {}
 
 struct ReverseTransition {
-    int i, j;
+    char i, j;
 };
 
 ReverseTransition &&
 SimulatedAnnealing::transition(Answer &state,
-                               std::minstd_rand &generator,
-                               const Problem &problem) const {
+                               std::minstd_rand &generator) const {
     ReverseTransition res;
     const uint32_t mutation = generator();
     res.i = mutation % 26;
@@ -40,8 +39,7 @@ void SimulatedAnnealing::updateBest(Answer &state,
 
 Answer &&SimulatedAnnealing::initState(std::minstd_rand &rnd) const {
     Answer state(problem);
-    for (int i = 0; i < 26; i++)
-        state.keyboard.swapKeys(i % 26, rnd() % 26);
+    for (int i = 0; i < 26; i++) transition(state, rnd);
     state.dist = state.keyboard.distance(problem);
     return std::move(state);
 }
@@ -54,7 +52,7 @@ void SimulatedAnnealing::optimize(const uint32_t seed) const {
 
     while (progress.update(metrics) < 1.0f) {
         for (unsigned int k = 0; k < chunk; k++) {
-            ReverseTransition rev = transition(state, rnd, problem);
+            ReverseTransition rev = transition(state, rnd);
             if (!keepTransition(state, metrics, rnd))
                 reverse(state, rev);
         }
