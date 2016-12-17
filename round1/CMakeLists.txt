@@ -1,4 +1,3 @@
-
 cmake_minimum_required(VERSION 2.8.12)
 
 get_filename_component(PROJECT_NAME ${CMAKE_CURRENT_SOURCE_DIR} NAME)
@@ -14,6 +13,7 @@ set(SOURCES
     "../src/problem.cpp"
     "../src/progress.cpp"
     "../src/simulated_annealing.cpp"
+    "../src/differential_evolution.cpp"
 )
 
 add_subdirectory(test)

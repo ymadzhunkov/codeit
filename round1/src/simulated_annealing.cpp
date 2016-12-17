@@ -5,7 +5,9 @@
 
 SimulatedAnnealing::SimulatedAnnealing(const Problem &problem,
                                        const Progress &progress)
-    : problem(problem), progress(progress), best(problem) {}
+    : problem(problem), progress(progress), best(problem) {
+    setInitParams();
+}
 
 SimulatedAnnealing::~SimulatedAnnealing() {}
 
@@ -62,16 +64,20 @@ void SimulatedAnnealing::optimize(const uint32_t seed) const {
     }
 }
 
+const Answer &SimulatedAnnealing::getBest() const { return best; }
+
 bool SimulatedAnnealing::keepTransition(
     Answer &state, ProgressMetrics &metrics,
     std::minstd_rand &generator) const {
 
-    const float temp = getTemperature(metrics);
     std::uniform_real_distribution<float> uniform(0.0, 1.0);
     int exp;
     frexpf(uniform(generator), &exp);
+
+    const float temp = getTemperature(metrics);
     const int newFitness = state.keyboard.distance(problem);
     const bool keepTrans = state.dist - newFitness >= exp * temp;
+
     if (keepTrans) {
         state.dist = newFitness;
         metrics.numTransitions++;
@@ -80,10 +86,21 @@ bool SimulatedAnnealing::keepTransition(
     return keepTrans;
 }
 
+void SimulatedAnnealing::setInitParams() {
+    params[0] = 22.0f; 
+    params[1] = 20.0f;
+    params[2] = 1.1f;
+}
+void SimulatedAnnealing::setAlgorithmParameters(const float * newParams) {
+    params[0] = newParams[0];
+    params[1] = newParams[1];
+    params[2] = newParams[2];
+}
+
 float SimulatedAnnealing::getTemperature(
     const ProgressMetrics &metrics) const {
-    return log2f(2.71) * 20.0 *
-           (1.0 +
-            20.0 / (metrics.numIterations * metrics.numIterations));
+    const float evolution = metrics.numIterations * 1e-5f;
+    return params[0] + params[1] * cosf(params[2] * evolution);
+//        (cosf(metrics.numIterations * 1e-5f) + 1.1f) * 20.0f;
 }
 

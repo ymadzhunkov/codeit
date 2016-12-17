@@ -3,10 +3,12 @@ set(TEST_SOURCES
    "main.cpp"
 )
 add_definitions("-O2")
-#add_definitions("-pthread")
+add_definitions("-g ")
 SET(CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} "-std=c++11 -pthread")
 SET(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -flto")
 add_executable(keyboard ${TEST_SOURCES} ${SOURCES})
+
+add_executable(optimize_params "optimize_params.cpp" ${SOURCES})
 
 file(WRITE ${CMAKE_CURRENT_BINARY_DIR}/example.001.in 
     "20\nwlcvovowllowwvwllvco")

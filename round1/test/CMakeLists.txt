@@ -4,6 +4,7 @@ set(UNIT_SOURCES
    "test_keyboard.cpp"
    "test_problem.cpp"
    "test_answer.cpp"
+   "test_differential_evolution.cpp"
 )
 
 add_coverage_target(
