@@ -29,3 +29,6 @@
 *.app
 
 build/*
+
+#vim swap files
+*.swp
