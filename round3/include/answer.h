@@ -2,5 +2,8 @@
 #include <stdio.h>
 class Answer {
   public:
-    void write(FILE * file) const;
+    Answer(const int m, const int x[]); 
+    void write(FILE * file, const int numParameters) const;
+    const int rightHandIndex;
+    const int * const x;
 };
