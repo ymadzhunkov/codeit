@@ -4,15 +4,15 @@ struct Reward {
     int exact;
     int approx;
 };
-struct Matrix {
-    
-};
+
 class Problem {
   public:
     Problem(FILE * file);
     virtual ~Problem();
     int numEquations;
     int numParameters;
+    int numRightSides;
     Reward * rewards;
-    Matrix a;
+    int    * equations;
+    int    * rightSides;
 };
